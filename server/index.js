@@ -7,8 +7,9 @@ const Helmet = require('koa-helmet');
 const Session = require('koa-session');
 const KoaBody = require('koa-body');
 const Views = require('koa-views');
-const serveSass = require('koa.sass');
+const Respond = require('koa-respond');
 
+const logger = require('./logger');
 const path = require('path');
 
 const app = new Koa();
@@ -21,6 +22,8 @@ app.context.db = db; // The db is now available on every request
 
 app.use(KoaBody());
 
+app.use(Respond());
+
 app.keys = ['WE ARE GOING TO CHANGE THIS'];
 
 /* Setup session */
@@ -30,18 +33,13 @@ const CONFIG = {
 };
 app.use(Session(CONFIG, app));
 
+//app.use(KoaBody());
+
 /* Better security by default */
 app.use(Helmet());
 
 /* Log web server requests */
 app.use(Logger());
-
-/* Koa-sass setup */
-app.use(serveSass({
-	mountAt: '/css/',
-	src: "client/sass/",
-	dest: "client/public/css/"
-}));
 
 /* Serve static files (CSS, JS, audio, etc.) */
 app.use(Static('client/public'));
@@ -60,7 +58,32 @@ app.use(async (ctx, next) => {
   /* This is run before every single request is handled specifically. */
   ctx.state.basedir = path.join(__dirname, '..', 'views');
 
+  // Create flash session object if does not exist yet (first request)
+  if (ctx.session.flash === undefined) ctx.session.flash = {};
+
+  // Inject flash function into request
+  ctx.request.flash = (type, msg) => {
+    ctx.session.flash[type] = msg;
+  };
+
+  // Empty the flash but before that pass it to the state to use in views
+  ctx.state.flash = ctx.session.flash;
+  ctx.session.flash = {};
+
+  /* ctx.state is passed to the views, but can also of course be accessed in a route */
+  ctx.state.loggedIn = !!ctx.session.cas_user;
+  ctx.state.username = ctx.session.cas_user;
+  ctx.state.user = ctx.state.loggedIn
+    ? await ctx.db.Student.findOne().byUsername(
+      ctx.session.cas_user // serialize the logged in user
+    )
+    : undefined;
+
   await next();
+
+  // Keep flash on redirect so it is not lost
+  if (ctx.status === 302 && ctx.session && !ctx.session.flash)
+    ctx.session.flash = ctx.state.flash;
 });
 
 /* Router setup */
