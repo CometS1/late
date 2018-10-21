@@ -22,11 +22,16 @@ block content
   section.section
     .container
       h2.title= new Date().toDateString()
+      title.changeTimeDisplayed(,state)
 
       .content <!--will optionally display different timespans based off of current selection, default to current day-->
         -const currDisplay = state.showing
         each n in currDisplay
-          p= n
+          details
+            summary=n
+            p assignments.descriptions
+    
+
 
 
   //- Need to make both buttons same size-// 
@@ -35,21 +40,7 @@ block content
   button(type="button" 
   onclick= 'changeTimeDisplayed('+JSON.stringify(today)+','+JSON.stringify(state)+')') Today
 
-
-
-  //-nav(class= "dropdown") 
-    ul() Choices
-      li
-        a(href="") SUB A
-      li
-        a(href="")  SUB B
-      li
-        a(href="") SUB C
-      li
-        a(href="") SUB D
-      li
-        a(href="") SUB E
-
+  //-Dropdown Button Code-//
   .dropdown
     button.dropbtn Dropdown
     .dropdown-content
@@ -57,5 +48,6 @@ block content
       a(href='#') Link 2
       a(href='#') Link 3
 
+  
 
 

@@ -1,6 +1,25 @@
 #late-image {
   max-width: 400px; }
 
+details > summary {
+  height: 20%;
+  min-width: 30%;
+  max-width: 75%;
+  padding: 10px;
+  background-color: #ff3860;
+  color: white; }
+
+details > p {
+  border: 1px solid black;
+  border-top: none;
+  padding: 10px;
+  min-width: 30%;
+  max-width: 74%;
+  border-radius: 0px 0px 5px 5px; }
+
+details {
+  margin-bottom: 10px; }
+
 button {
   background-color: #ff3860;
   color: white;

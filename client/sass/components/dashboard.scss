@@ -1,3 +1,29 @@
+///////////////////////////////////////////////////////////////////////////////////
+//-Assignments Display-//
+details>summary{
+    height:20%;
+    min-width:30%;
+    max-width:75%;
+    padding:10px;
+    background-color:#ff3860;
+    color:white;
+}
+details>p{
+    
+    border:1px solid black;
+    border-top:none;
+    padding:10px;
+    min-width:30%;
+    max-width:74%;
+    border-radius:0px 0px 5px 5px;
+}
+
+details{
+    margin-bottom:10px;
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+//-Button Interactions and Styling-//
 button{
     background-color:#ff3860;
     color:white;
@@ -24,7 +50,11 @@ nav.dropdown:hover{
     }
 }
 
-/// Experiment
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//-DROP DOWN Button Classes-// 
 .dropbtn {
     background-color:#ff3860;
     border:none;
