@@ -1,18 +1,10 @@
 header
   section.hero.is-dark
-    .hero-body
-      .container
-        h1.title LATE
-        h2.subtitle Lazy Automatic Time Evaluator
-    .hero-foot
+    .hero-top
       nav.tabs
         .container
           ul
-            li
-              a(href='/' , style={background: 'grey'}) Home
             if loggedIn
-              li
-                a(href='/setup/course_schedule') Courses
               li
                 a Logged in as&nbsp;#[b= user.display_name]
               li(style={float: 'up'})
@@ -20,6 +12,31 @@ header
             else
               li
                 a(href='/login') Not Logged In
+    .hero-body
+      .container
+        h1.title LATE
+        h2.subtitle Lazy Automatic Time Evaluator
+
+        
+    .hero-foot
+      nav.tabs
+        .container
+          ul
+            li
+              a(href='/') Home
+            li
+              a(href='/dashboard') Dashboard
+            if loggedIn
+              li
+                a(href='/setup/course_schedule') Courses
+            li
+              a(href='/about') About Us
+            li
+              a(href='/') Filler 1
+            li
+              a(href='/') Filler 2
+
+    
 script.
   $("a").click(function(){
     $("a").css("background-color","");

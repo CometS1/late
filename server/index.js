@@ -8,6 +8,8 @@ const Session = require('koa-session');
 const KoaBody = require('koa-bodyparser');
 const Views = require('koa-views');
 const Respond = require('koa-respond');
+const serveSass = require('koa.sass');
+
 
 const logger = require('./logger');
 const path = require('path');
@@ -26,6 +28,13 @@ app.use(KoaBody());
 app.use(Respond());
 
 app.keys = ['WE ARE GOING TO CHANGE THIS'];
+
+/* Auto sass to css */
+app.use(serveSass({
+  mountAt: '/css/',
+  src: "client/sass/",
+  dest: "client/public/css/"
+}));
 
 /* Setup session */
 const CONFIG = {
