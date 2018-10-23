@@ -8,11 +8,20 @@ header
       nav.tabs
         .container
           ul
+            li
+              a(href='/' , style={background: 'grey'}) Home
             if loggedIn
               li
-                a Logged in as&nbsp;#[b= user.display_name]
+                a(href='/setup/course_schedule') Courses
               li
+                a Logged in as&nbsp;#[b= user.display_name]
+              li(style={float: 'up'})
                 a(href='/logout') Logout
             else
               li
                 a(href='/login') Not Logged In
+script.
+  $("a").click(function(){
+    $("a").css("background-color","");
+    $(this).css("background-color","white");
+  });
