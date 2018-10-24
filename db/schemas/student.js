@@ -45,6 +45,11 @@ schema.query.byUsername = function(rcs_id) {
 };
 
 /* METHODS */
+
+schema.methods.courseFromCRN = function(crn) {
+  return this.course_schedule.filter(c => c.crn === crn)[0];
+};
+
 schema.methods.findAllAssignments = function(past = false) {
   let query = {
     _student: this._id
@@ -58,6 +63,9 @@ schema.methods.findAllAssignments = function(past = false) {
 
   return this.model('Assignment')
     .find(query)
+    .sort('dueDate')
+    .sort('-priority')
+    .sort('completed')
     .exec();
 };
 
@@ -70,6 +78,9 @@ schema.methods.findAssignmentsDueOn = function(date) {
         $lte: moment(date).endOf('day')
       }
     })
+    .sort('dueDate')
+    .sort('-priority')
+    .sort('completed')
     .exec();
 };
 
@@ -87,6 +98,9 @@ schema.methods.findAssignmentsDueBy = function(date, past = false) {
 
   return this.model('Assignment')
     .find(query)
+    .sort('dueDate')
+    .sort('-priority')
+    .sort('completed')
     .exec();
 };
 

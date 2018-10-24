@@ -1,24 +1,37 @@
 extends /template
 
 block content
-  section.section
+  section.section#assignment-list
     .container
-      h1.title All Assignments
-
-      .assignments.columns.is-multiline
-        for a in assignments
-          .column
-            .card
-              header.card-header
-                p.card-header-title= a.title
-                a.card-header-icon(href='#', aria-label='more options')
-                  span.icon
-                    i.fas.fa-angle-down(aria-hidden='true')
-              .card-content
-                .content= a.description
-                  br
-                  i
-                    time= moment(a.dueDate).fromNow()
-              footer.card-footer
-                a.card-footer-item(href='#') Done
-                a.card-footer-item(href='#') Edit
+      h1.title All Upcoming Assignments
+      
+      .columns.is-multiline
+        each assignments, date in groupedByDate
+          .column.is-half
+            h2.subtitle
+              span.has-text-grey(title=assignments.length + ' assignments due') (#{assignments.length})
+              | 
+              span(title=moment(date, 'YYYY-MM-DD').fromNow()) Due #{moment(date, 'YYYY-MM-DD').format('dddd, MMMM Do YYYY')}
+            .assignments
+              ul
+                each a in assignments
+                  -let c = user.courseFromCRN(a.courseCRN)
+                  li
+                    .box.assignment(data-assignment-id=a._id, class=a.completed ? 'completed' : '')
+                      span.actions.is-pulled-right
+                        span.action.fas.fa-check(title='Toggle assignment completion.', onclick='alert("Not yet implemented...")')
+                        span.action.fas.fa-pencil-alt(title='Edit assignment.', onclick='alert("Not yet implemented...")')
+                        //span.action.fas.fa-times(title='Delete assignment.')
+                      details
+                        summary(title=a.completed ? 'You completed this assignment.' : 'This is not yet completed.')
+                          b.course-longname= c.longname
+                          | : 
+                          span.assignment-title= a.title
+                        .content
+                          if a.description
+                            p.assignment-description= a.description
+                          else
+                            p.has-text-grey-light No description given.
+      hr
+      
+      a.button.is-primary(href='/assignments/new') New Assignment
