@@ -1,8 +1,10 @@
 // This is where all styles for the header element will go
-.hero-top .container>ul>li{
-	background-color:black;
-	text-align:right;
-	float:rigth;
-	
+.hero-top .container>ul{
+	float:right;	
 }
+
+.hero-foot .tabs a.is-active{
+	background-color:gray;
+}
+
 
