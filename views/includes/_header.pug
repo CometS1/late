@@ -22,15 +22,15 @@ header
       nav.tabs
         .container
           ul
-            li.is-active
+            li(class=(path=='/' ? 'is-active' : ''))
               a(href='/' ) Home
-            li
+            li(class=(path=='/dashboard' ? 'is-active' : ''))
               a(href='/dashboard') Dashboard
             if loggedIn
-              li
+              li(class=(path=='/setup/course_schedule' ? 'is-active' : ''))
                 a(href='/setup/course_schedule') Courses
-            li
-              a(href='/about') About Us
+            li(class=(path=='/about' ? 'is-active' : ''))
+              a(href='/about') About
             li
               a(href='/') Filler 1
             li
